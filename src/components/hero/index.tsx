@@ -74,7 +74,7 @@ const HeroSection = () => {
   );
 };
 
-const FeatureIcon = ({ icon: Icon, text }: { icon: any; text: string }) => (
+const FeatureIcon = ({ icon: Icon, text }: { icon: React.ElementType; text: string }) => (
   <motion.div
     className="flex flex-col items-center"
     initial={{ opacity: 0, y: 20 }}
@@ -88,7 +88,7 @@ const FeatureIcon = ({ icon: Icon, text }: { icon: any; text: string }) => (
   </motion.div>
 );
 
-const SecurityCheckIcon = (props) => (
+const SecurityCheckIcon = (props: React.SVGProps<SVGSVGElement> & { size: number }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -106,7 +106,7 @@ const SecurityCheckIcon = (props) => (
   </svg>
 );
 
-const SquareLockCheck02Icon = (props) => (
+const SquareLockCheck02Icon = (props: React.SVGProps<SVGSVGElement> & { size: number }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -125,7 +125,7 @@ const SquareLockCheck02Icon = (props) => (
   </svg>
 );
 
-const ComputerProtectionIcon = (props) => (
+const ComputerProtectionIcon = (props: React.SVGProps<SVGSVGElement> & { size: number }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
