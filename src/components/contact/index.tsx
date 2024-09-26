@@ -6,11 +6,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -58,12 +56,14 @@ export default function ContactSection() {
       toast({
         title: 'Form submitted successfully!',
         description: "We'll get back to you soon.",
+        className: 'bg-green-500 text-white border-green-700',
       });
       form.reset();
     } catch (error) {
       toast({
         title: 'Error submitting form',
-        description: 'Please try again later.',
+        // @ts-expect-error " error is not defined"
+        description: error?.message || 'Please try again later.',
         variant: 'destructive',
       });
     } finally {
@@ -75,8 +75,8 @@ export default function ContactSection() {
     <section className="max-w-7xl mx-auto py-12 px-4 mt-12" id="contact">
       <h2 className=" font-bold tracking-tighter text-4xl mb-2 text-center">Contact Us</h2>
       <p className="text-gray-500 text-center max-w-5xl mb-12 mx-auto">
-        Get in touch with our cyber security experts. We're here to help protect your digital
-        assets.
+        Get in touch with our network and IT infrastructure experts. We’re here to help optimize and
+        protect your systems.
       </p>
       <motion.div
         className=" grid items-center gap-12  lg:grid-cols-2"
@@ -96,12 +96,12 @@ export default function ContactSection() {
           </div>
           <div className="flex items-start gap-4 justify-start max-w-[70%] text-sm">
             <PhoneIcon className="text-primary" size={16} />
-            <p>011‐41051450, 9871925813,</p>
+            <p>011‐41051450</p>
           </div>
           <div className="flex items-start gap-4 justify-start max-w-[70%] text-sm">
             <MailIcon className="text-primary" size={16} />
             <Link href="mailto:info@adsystems.in" className="hover:text-primary duration-200 mb-4">
-              info@adsystems.in
+              query@adsystems.in
             </Link>
           </div>
           <Form {...form}>

@@ -50,7 +50,7 @@ const HeroSection = () => {
             </span>
           </h1>
           <p className="text-lg   text-gray-600 dark:text-gray-300 mb-8 max-w-2xl">
-            Access Data Systems Private Limited: Empowering businesses with secure, scalable, and
+            <strong>Access Data Systems</strong> Empowering businesses with secure, scalable, and
             innovative IT solutions for a prosperous digital future.
           </p>
           <div className="relative mb-12 z-50 ">

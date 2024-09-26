@@ -14,6 +14,9 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
 
+const RESUME_MAX_SIZE = 2 * 1024 * 1024; // 2 MB
+const PHOTO_MAX_SIZE = 1024 * 100; // 100 KB
+
 export default function JobApplicationForm() {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -28,18 +31,16 @@ export default function JobApplicationForm() {
     resume: null,
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
   const handleInputChange = (e: any) => {
     const { name, value, type, files } = e.target;
     console.log({ name, value, type, files });
     if (type === 'checkbox') {
-      // @ts-ignore
+      // @ts-expect-error "resume" is not defined
       const updatedAreas = formData.areasOfInterest.includes(value)
         ? formData.areasOfInterest.filter((area) => area !== value)
         : [...formData.areasOfInterest, value];
-      // @ts-ignore
+      // @ts-expect-error "resume" is not defined
       setFormData((prev) => ({ ...prev, areasOfInterest: updatedAreas }));
     } else if (type === 'file') {
       setFormData((prev) => ({ ...prev, [name]: files[0] }));
@@ -60,32 +61,81 @@ export default function JobApplicationForm() {
       return;
     }
 
+    // check if files are under the size limit
+    // @ts-expect-error Property size does not exist on type never
+    if (formData.resume && formData.resume.size > RESUME_MAX_SIZE) {
+      toast({
+        title: 'Error',
+        description: 'Resume file size exceeds the 2 MB limit.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // @ts-expect-error Property size does not exist on type never
+    if (formData.photo && formData.photo.size > PHOTO_MAX_SIZE) {
+      toast({
+        title: 'Error',
+        description: 'Photo file size exceeds the 100 KB limit.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // check file mimetypes
+    // @ts-expect-error Property type does not exist on type never
+    if (formData.resume && !formData.resume.type.includes('pdf')) {
+      toast({
+        title: 'Error',
+        description: 'Resume file must be a PDF.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // photo can be jpg, jpeg, or png
+    if (
+      formData.photo &&
+      // @ts-expect-error Property type does not exist on type never
+      !formData.photo.type.includes('jpg') &&
+      // @ts-expect-error Property type does not exist on type never
+      !formData.photo.type.includes('jpeg') &&
+      // @ts-expect-error Property type does not exist on type never
+      !formData.photo.type.includes('png')
+    ) {
+      toast({
+        title: 'Error',
+        description: 'Photo file must be a JPG.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setIsLoading(true);
-    setError('');
-    setSuccess('');
 
     try {
       // Convert files to buffer for sending in the request
-      // @ts-ignore
+      // @ts-expect-error "resume" is not defined
       const resumeBuffer = await formData.resume?.arrayBuffer();
-      // @ts-ignore
+      // @ts-expect-error "photo" is not defined
       const photoBuffer = await formData.photo?.arrayBuffer();
 
       const payload = {
         ...formData,
         areasOfInterest: ['Web Development', 'Data Science'], // Example interests
         resume: {
-          // @ts-ignore
+          // @ts-expect-error "resume" is not defined
           filename: formData.resume.name,
           content: new Uint8Array(resumeBuffer),
-          // @ts-ignore
+          // @ts-expect-error "resume" is not defined
           contentType: formData.resume.type,
         },
         photo: {
-          // @ts-ignore
+          // @ts-expect-error "resume" is not defined
           filename: formData.photo.name,
           content: new Uint8Array(photoBuffer),
-          // @ts-ignore
+
+          // @ts-expect-error "resume" is not defined
           contentType: formData.photo.type,
         },
       };
@@ -98,22 +148,16 @@ export default function JobApplicationForm() {
         body: JSON.stringify(payload),
       });
 
-      const result = await response.json();
-
       if (response.ok) {
-        setSuccess('Application submitted successfully!');
         toast({
           title: 'Application Submitted',
           description:
             'Thank you for your application. A confirmation email has been sent to your address.',
           className: 'bg-green-500 text-white',
         });
-      } else {
-        setError(result.message || 'Failed to submit the application.');
       }
     } catch (error) {
       console.error('Error submitting application:', error);
-      setError('An unexpected error occurred.');
     } finally {
       setIsLoading(false);
     }
@@ -181,8 +225,8 @@ export default function JobApplicationForm() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="highschool">High School</SelectItem>
-                  <SelectItem value="bachelor">Bachelor's Degree</SelectItem>
-                  <SelectItem value="master">Master's Degree</SelectItem>
+                  <SelectItem value="bachelor">Bachelor&apos;s Degree</SelectItem>
+                  <SelectItem value="master">Master&apos;s Degree</SelectItem>
                   <SelectItem value="phd">Ph.D.</SelectItem>
                 </SelectContent>
               </Select>
@@ -200,18 +244,18 @@ export default function JobApplicationForm() {
                   <SelectValue placeholder="Select a value" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="data_analysis">Data Analysis</SelectItem>
-                  <SelectItem value="web_development">Web Development</SelectItem>
-                  <SelectItem value="computer_programming">
+                  <SelectItem value="Data Analysis">Data Analysis</SelectItem>
+                  <SelectItem value="Web Development">Web Development</SelectItem>
+                  <SelectItem value="Computer Programming">
                     Computer Programming Languages
                   </SelectItem>
-                  <SelectItem value="financial_management">Financial Management</SelectItem>
-                  <SelectItem value="bookkeeping">Bookkeeping</SelectItem>
-                  <SelectItem value="ux_design">UX Design</SelectItem>
-                  <SelectItem value="graphic_design">Graphic Design</SelectItem>
-                  <SelectItem value="operating_systems">Operating Systems</SelectItem>
-                  <SelectItem value="data_security">Data Security</SelectItem>
-                  <SelectItem value="endpoint_protection">Endpoint Protection</SelectItem>
+                  <SelectItem value="Financial Management">Financial Management</SelectItem>
+                  <SelectItem value="Bookkeeping">Bookkeeping</SelectItem>
+                  <SelectItem value="UX Design">UX Design</SelectItem>
+                  <SelectItem value="Graphic Design">Graphic Design</SelectItem>
+                  <SelectItem value="Operating Systems">Operating Systems</SelectItem>
+                  <SelectItem value="Data Security">Data Security</SelectItem>
+                  <SelectItem value="Endpoint Protection">Endpoint Protection</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -237,7 +281,7 @@ export default function JobApplicationForm() {
                   id={area}
                   name="areasOfInterest"
                   value={area}
-                  // @ts-ignore
+                  // @ts-expect-error "resume" is not defined
                   checked={formData.areasOfInterest.includes(area)}
                   onChange={handleInputChange}
                   className="mr-2"
@@ -262,7 +306,7 @@ export default function JobApplicationForm() {
                 onChange={handleInputChange}
               />
               <p className="text-sm text-gray-500">
-                Files must be less than 5 MB. Allowed file types: jpg, jpeg, png.
+                Files must be less than 100 KB. Allowed file types: jpg, jpeg, png.
               </p>
             </div>
             <div>
@@ -271,12 +315,12 @@ export default function JobApplicationForm() {
                 id="resume"
                 name="resume"
                 type="file"
-                accept=".pdf,.doc,.docx"
+                accept=".pdf"
                 required
                 onChange={handleInputChange}
               />
               <p className="text-sm text-gray-500">
-                Files must be less than 10 MB. Allowed file types: pdf, doc, docx.
+                Files must be less than 2 MB. Allowed file type: pdf.
               </p>
             </div>
           </div>

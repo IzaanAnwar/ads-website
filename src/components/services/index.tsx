@@ -61,14 +61,14 @@ export default function ServicesSection() {
           Our <strong className="text-primary">Services</strong>
         </h1>
         <p className="text-gray-600 mb-12 text-center max-w-5xl mx-auto">
-          Explore the range of customized IT solutions offered by Access Data Systems Pvt. Ltd.,
-          designed to enhance your digital infrastructure across various industries. From
-          educational institutions to corporate environments, our expert services ensure reliable
-          performance, comprehensive security, and confidence in your technology investments.
+          Explore the range of customized IT solutions offered by Access Data Systems, designed to
+          enhance your digital infrastructure across various industries. From educational
+          institutions to corporate environments, our expert services ensure reliable performance,
+          comprehensive security, and confidence in your technology investments.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {serviceCards.map((service, index) => (
-            <ServicesCard {...service} index={index} />
+            <ServicesCard key={service.href} {...service} index={index} />
           ))}
         </div>
         <motion.div
@@ -80,7 +80,7 @@ export default function ServicesSection() {
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl font-bold">
-                Other Services by Access Data Services Pvt Ltd
+                Core Services by Access Data Systems
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -98,7 +98,7 @@ export default function ServicesSection() {
                   </motion.div>
                 ))}
               </div>
-              <motion.div
+              {/* <motion.div
                 className="mt-6 w-fit"
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 10 }}
@@ -108,7 +108,7 @@ export default function ServicesSection() {
                     View All Services →
                   </Link>
                 </Button>
-              </motion.div>
+              </motion.div> */}
             </CardContent>
           </Card>
         </motion.div>

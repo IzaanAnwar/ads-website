@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, Variants } from 'framer-motion';
-import { Facebook, Github, Linkedin, Twitter, Youtube } from 'lucide-react';
+import { Facebook, Linkedin } from 'lucide-react';
 import Link from 'next/link';
 
 const fadeIn: Variants = {
@@ -68,12 +68,16 @@ export default function Footer() {
           <motion.div variants={fadeIn}>
             <h3 className=" font-semibold mb-4 text-rose-100">Contacts</h3>
             <p className="text-sm">+91 011-41051450</p>
-            <p className="text-sm">+91 9871925813</p>
-            <p className="text-sm">info@adsystems.in</p>
+            <p className="text-sm">query@adsystems.in</p>
           </motion.div>
 
-          <motion.div variants={fadeIn}>
-            <h3 className="font-semibold mb-4 text-rose-100">Registered Office</h3>
+          <motion.div className="space-y-6" variants={fadeIn}>
+            <div>
+              <h3 className="font-semibold mb-4 text-rose-100">Registered Office</h3>
+              <p className="text-sm ">307A, 3rd Floor, Govardhan House, 53‐54, Nehru Place,</p>
+              <p className="text-sm ">New Delhi – 110019</p>
+            </div>
+            <h3 className="font-semibold mb-4 text-rose-100">Corporate Office</h3>
             <p className="text-sm ">307A, 3rd Floor, Govardhan House, 53‐54, Nehru Place,</p>
             <p className="text-sm ">New Delhi – 110019</p>
           </motion.div>

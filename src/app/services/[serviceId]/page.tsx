@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Shield, Search, Bug, Lock, FileText } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ServicesCard } from '@/components/services';
 import { subServices } from '@/lib/data';
@@ -56,11 +56,12 @@ export default function SubServicesPage({ params }: { params: { serviceId: strin
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.h2 className="text-3xl font-bold text-center mb-12" {...fadeIn}>
-            Our Web Application Penetration Testing Services
+            Our {service?.category} Services
           </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {service?.subServices.map((subser, index) => (
               <ServicesCard
+                key={index}
                 href={subser.title}
                 title={subser.title}
                 description={subser.description}
@@ -75,11 +76,11 @@ export default function SubServicesPage({ params }: { params: { serviceId: strin
       <section className="bg-zinc-100 py-16 px-4">
         <div className="max-w-4xl mx-auto text-center text-primary">
           <motion.h2 className="text-3xl font-bold mb-4" {...fadeIn}>
-            Ready to Secure Your Web Applications?
+            Ready to Transform your organisation?
           </motion.h2>
           <motion.p className="text-xl mb-8" {...fadeIn}>
-            Let our experts help you identify and address vulnerabilities before they can be
-            exploited.
+            Let our experts help you optimize your systems and address potential challenges before
+            they impact your organisation.
           </motion.p>
           <motion.div
             {...fadeIn}
