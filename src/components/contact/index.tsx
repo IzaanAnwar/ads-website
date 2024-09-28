@@ -52,7 +52,16 @@ export default function ContactSection() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     try {
-      await submitContactForm(values);
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+      if (!res.ok) {
+        throw new Error('Failed to submit form');
+      }
       toast({
         title: 'Form submitted successfully!',
         description: "We'll get back to you soon.",

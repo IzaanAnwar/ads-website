@@ -80,7 +80,7 @@ export default function ServicesSection() {
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl font-bold">
-                Core Services by Access Data Systems
+                Access Data Systems&apos; Core Services
               </CardTitle>
             </CardHeader>
             <CardContent>

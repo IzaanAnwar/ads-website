@@ -20,6 +20,7 @@ const emailBody = z.object({
     content: z.record(z.number()),
     contentType: z.string(),
   }),
+  whyJoinUs: z.string().optional(),
 });
 
 export async function POST(req: Request) {
@@ -36,11 +37,14 @@ export async function POST(req: Request) {
       areasOfInterest,
       resume,
       photo,
+      whyJoinUs,
     } = emailBody.parse(body);
 
     // Create a nodemailer transporter for sending the email
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.zoho.in',
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD,
@@ -103,6 +107,12 @@ export async function POST(req: Request) {
                 
                 <h2 style="color: #2980b9;">Areas of Interest</h2>
                 <p style="background-color: #ecf0f1; padding: 10px;">${areasOfInterest.join(', ')}</p>
+
+                ${
+                  whyJoinUs &&
+                  `<h2 style="color: #2980b9;">Why Join us?</h2>
+                  <p style="background-color: #ecf0f1; padding: 10px;">${whyJoinUs}</p>`
+                }
                 
                 <h2 style="color: #2980b9;">Attachments</h2>
                 <ul style="list-style-type: none; padding-left: 0;">

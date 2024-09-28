@@ -148,188 +148,320 @@ export default function JobApplicationForm() {
         body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
-        toast({
-          title: 'Application Submitted',
-          description:
-            'Thank you for your application. A confirmation email has been sent to your address.',
-          className: 'bg-green-500 text-white',
-        });
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
       }
+      toast({
+        title: 'Application Submitted',
+        description:
+          'Thank you for your application. A confirmation email has been sent to your address.',
+        className: 'bg-green-500 text-white',
+      });
     } catch (error) {
       console.error('Error submitting application:', error);
+      toast({
+        title: 'Error',
+        description: 'Please try again later.',
+        variant: 'destructive',
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <section className="max-w-7xl h-full py-20 w-full mx-auto px-4">
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-8 max-w-2xl mx-auto p-6 bg-white rounded-lg shadow"
-      >
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Personal Information</h2>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="fullName">Full Name *</Label>
-              <Input id="fullName" name="fullName" required onChange={handleInputChange} />
-            </div>
-            <div>
-              <Label htmlFor="email">Email *</Label>
-              <Input id="email" name="email" type="email" required onChange={handleInputChange} />
-            </div>
-            <div>
-              <Label htmlFor="phone">Phone *</Label>
-              <Input id="phone" name="phone" required onChange={handleInputChange} />
-            </div>
-            <div>
-              <Label htmlFor="address">Address *</Label>
-              <Textarea id="address" name="address" required onChange={handleInputChange} />
-            </div>
-            <div>
-              <Label>Gender *</Label>
-              <RadioGroup
-                name="gender"
-                required
-                onValueChange={(value) => setFormData((prev) => ({ ...prev, gender: value }))}
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="male" id="male" />
-                  <Label htmlFor="male">Male</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="female" id="female" />
-                  <Label htmlFor="female">Female</Label>
-                </div>
-              </RadioGroup>
-            </div>
+    <div className="">
+      <section className="relative h-[70svh]  text-white bg-black py-24 flex items-center justify-center">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/career.jpg')", opacity: 0.3 }}
+        ></div>
+        <div className="container mx-auto px-6 relative z-10">
+          <h1 className="text-4xl font-bold mb-4 text-center">Careers With Access Data Systems</h1>
+          <p className="text-xl mb-8 text-center max-w-3xl mx-auto">
+            Be part of a dynamic team driving innovation in IT solutions. We're looking for talented
+            individuals to help shape the future of technology.
+          </p>
+          <div className="text-center">
+            <a
+              href="#apply"
+              className="bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600 transition duration-300 inline-block"
+            >
+              Apply Now
+            </a>
           </div>
         </div>
+      </section>
 
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Qualification</h2>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="educationQualification">Education Qualification *</Label>
-              <Select
-                name="educationQualification"
-                required
-                onValueChange={(value) =>
-                  setFormData((prev) => ({ ...prev, educationQualification: value }))
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a value" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="highschool">High School</SelectItem>
-                  <SelectItem value="bachelor">Bachelor&apos;s Degree</SelectItem>
-                  <SelectItem value="master">Master&apos;s Degree</SelectItem>
-                  <SelectItem value="phd">Ph.D.</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="technicalQualification">Technical Qualification *</Label>
-              <Select
-                name="technicalQualification"
-                required
-                onValueChange={(value) =>
-                  setFormData((prev) => ({ ...prev, technicalQualification: value }))
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a value" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Data Analysis">Data Analysis</SelectItem>
-                  <SelectItem value="Web Development">Web Development</SelectItem>
-                  <SelectItem value="Computer Programming">
-                    Computer Programming Languages
-                  </SelectItem>
-                  <SelectItem value="Financial Management">Financial Management</SelectItem>
-                  <SelectItem value="Bookkeeping">Bookkeeping</SelectItem>
-                  <SelectItem value="UX Design">UX Design</SelectItem>
-                  <SelectItem value="Graphic Design">Graphic Design</SelectItem>
-                  <SelectItem value="Operating Systems">Operating Systems</SelectItem>
-                  <SelectItem value="Data Security">Data Security</SelectItem>
-                  <SelectItem value="Endpoint Protection">Endpoint Protection</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Areas of Interest</h2>
-          <div className="space-y-2">
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-6">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
+            Join Access Data Systems
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              'Network Engineer',
-              'Server Engineer',
-              'Cluster Management',
-              'High Performance Computing Installation',
-              'Design (Web, Application, HPC etc.)',
-              'Security Surveillance/Video Conferencing/Audio Visual',
-              'LAN Networking/Passive Components/Project Management',
-              'Research',
-            ].map((area) => (
-              <div key={area} className="flex items-center">
-                <input
-                  type="checkbox"
-                  id={area}
-                  name="areasOfInterest"
-                  value={area}
-                  // @ts-expect-error "resume" is not defined
-                  checked={formData.areasOfInterest.includes(area)}
-                  onChange={handleInputChange}
-                  className="mr-2"
-                />
-                <Label htmlFor={area}>{area}</Label>
+              {
+                title: 'Innovative Technology',
+                description: 'Work with cutting-edge tech in converged networks, HPC, and more.',
+              },
+              {
+                title: 'Dynamic Environment',
+                description:
+                  'Join a team of young, dynamic IT professionals in a fast-paced culture.',
+              },
+              {
+                title: 'Diverse Projects',
+                description:
+                  'Engage in a wide range of projects from LAN/WAN to wireless networks.',
+              },
+              {
+                title: 'Career Growth',
+                description:
+                  'Ample opportunities for career advancement and professional development.',
+              },
+            ].map((item, index) => (
+              <div key={index} className="bg-gray-100 p-6 rounded-lg shadow-md">
+                <h3 className="text-xl font-semibold text-red-500 mb-3">{item.title}</h3>
+                <p className="text-gray-600">{item.description}</p>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Uploads</h2>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="photo">Photo *</Label>
-              <Input
-                id="photo"
-                name="photo"
-                type="file"
-                accept=".jpg,.jpeg,.png"
+      <section id="apply" className="py-16 bg-gray-100">
+        <div className="container mx-auto px-6">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Apply Now</h2>
+          <form
+            onSubmit={handleSubmit}
+            className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-xl font-semibold text-gray-700 mb-4">Personal Information</h3>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="fullName" className="text-gray-700">
+                      Full Name *
+                    </Label>
+                    <Input
+                      id="fullName"
+                      name="fullName"
+                      required
+                      onChange={handleInputChange}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="email" className="text-gray-700">
+                      Email *
+                    </Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      onChange={handleInputChange}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="phone" className="text-gray-700">
+                      Phone *
+                    </Label>
+                    <Input
+                      id="phone"
+                      name="phone"
+                      required
+                      onChange={handleInputChange}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="address" className="text-gray-700">
+                      Address *
+                    </Label>
+                    <Textarea
+                      id="address"
+                      name="address"
+                      required
+                      onChange={handleInputChange}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-gray-700">Gender *</Label>
+                    <RadioGroup
+                      name="gender"
+                      required
+                      onValueChange={(value) => setFormData((prev) => ({ ...prev, gender: value }))}
+                      className="flex space-x-4 mt-1"
+                    >
+                      <div className="flex items-center">
+                        <RadioGroupItem value="male" id="male" />
+                        <Label htmlFor="male" className="ml-2">
+                          Male
+                        </Label>
+                      </div>
+                      <div className="flex items-center">
+                        <RadioGroupItem value="female" id="female" />
+                        <Label htmlFor="female" className="ml-2">
+                          Female
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold text-gray-700 mb-4">Qualification</h3>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="educationQualification" className="text-gray-700">
+                      Education Qualification *
+                    </Label>
+                    <Select
+                      name="educationQualification"
+                      required
+                      onValueChange={(value) =>
+                        setFormData((prev) => ({ ...prev, educationQualification: value }))
+                      }
+                    >
+                      <SelectTrigger className="mt-1">
+                        <SelectValue placeholder="Select a value" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="highschool">High School</SelectItem>
+                        <SelectItem value="bachelor">Bachelor's Degree</SelectItem>
+                        <SelectItem value="master">Master's Degree</SelectItem>
+                        <SelectItem value="phd">Ph.D.</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="technicalQualification" className="text-gray-700">
+                      Technical Qualification *
+                    </Label>
+                    <Select
+                      name="technicalQualification"
+                      required
+                      onValueChange={(value) =>
+                        setFormData((prev) => ({ ...prev, technicalQualification: value }))
+                      }
+                    >
+                      <SelectTrigger className="mt-1">
+                        <SelectValue placeholder="Select a value" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Network Engineering">Network Engineering</SelectItem>
+                        <SelectItem value="Cloud Computing">Cloud Computing</SelectItem>
+                        <SelectItem value="Cybersecurity">Cybersecurity</SelectItem>
+                        <SelectItem value="AI/Machine Learning">AI/Machine Learning</SelectItem>
+                        <SelectItem value="DevOps">DevOps</SelectItem>
+                        <SelectItem value="IoT">Internet of Things (IoT)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold text-gray-700 mb-4">Areas of Interest</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {[
+                  'Network Engineering',
+                  'Server Engineering',
+                  'Cluster Management',
+                  'High Performance Computing',
+                  'Web Development',
+                  'Application Development',
+                  'Security & Surveillance',
+                  'Video Conferencing',
+                  'Audio Visual Solutions',
+                ].map((area) => (
+                  <div key={area} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={area}
+                      name="areasOfInterest"
+                      value={area}
+                      checked={formData.areasOfInterest.includes(area)}
+                      onChange={handleInputChange}
+                      className="mr-2"
+                    />
+                    <Label htmlFor={area} className="text-sm text-gray-700">
+                      {area}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <Label htmlFor="whyJoinUs" className="text-gray-700">
+                Why do you want to join Access Data Systems? *
+              </Label>
+              <Textarea
+                id="whyJoinUs"
+                name="whyJoinUs"
                 required
                 onChange={handleInputChange}
+                className="mt-1"
+                placeholder="Tell us why you're interested in joining our team and how your skills align with our company's goals."
               />
-              <p className="text-sm text-gray-500">
-                Files must be less than 100 KB. Allowed file types: jpg, jpeg, png.
-              </p>
             </div>
-            <div>
-              <Label htmlFor="resume">Resume *</Label>
-              <Input
-                id="resume"
-                name="resume"
-                type="file"
-                accept=".pdf"
-                required
-                onChange={handleInputChange}
-              />
-              <p className="text-sm text-gray-500">
-                Files must be less than 2 MB. Allowed file type: pdf.
-              </p>
+
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold text-gray-700 mb-4">Uploads</h3>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="photo" className="text-gray-700">
+                    Photo *
+                  </Label>
+                  <Input
+                    id="photo"
+                    name="photo"
+                    type="file"
+                    accept=".jpg,.jpeg,.png"
+                    required
+                    onChange={handleInputChange}
+                    className="mt-1"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Files must be less than 100 KB. Allowed file types: jpg, jpeg, png.
+                  </p>
+                </div>
+                <div>
+                  <Label htmlFor="resume" className="text-gray-700">
+                    Resume *
+                  </Label>
+                  <Input
+                    id="resume"
+                    name="resume"
+                    type="file"
+                    accept=".pdf"
+                    required
+                    onChange={handleInputChange}
+                    className="mt-1"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Files must be less than 2 MB. Allowed file type: pdf.
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
+
+            <Button
+              type="submit"
+              className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 mt-8"
+            >
+              {isLoading ? 'Submitting...' : 'Submit Application'}
+            </Button>
+          </form>
         </div>
-
-        <Button type="submit" className="w-full">
-          {isLoading ? 'Loading...' : 'Submit Application'}
-        </Button>
-      </form>
-    </section>
+      </section>
+    </div>
   );
 }
